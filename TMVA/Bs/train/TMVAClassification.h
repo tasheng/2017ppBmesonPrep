@@ -23,7 +23,7 @@ namespace mytmva
   };
 
   const std::vector<mytmva::tmvavar> varlist = {
-/* 
+ 
     mytmva::tmvavar("Btrk1Pt"  , "Btrk1Pt"                                                                                        , "FMax", "#pi_{1} p_{T} (GeV/c)"                , 0   , 10) , // 8
     mytmva::tmvavar("Btrk2Pt"  , "Btrk2Pt"                                                                                        , "FMax", "#pi_{2} p_{T} (GeV/c)"                , 0   , 10) , // 9	 
 	mytmva::tmvavar("Trk1DCAz"  , "Trk1DCAz := abs(Btrk1Dz1/Btrk1DzError1)"                                                                                        , "FMax", "#Eta_{1} "                , -3   , 3) , // 8
@@ -38,7 +38,6 @@ namespace mytmva
 	mytmva::tmvavar("Bchi2cl"  , "Bchi2cl"                                                                                        , "FMax", "vertex #chi^{2} prob"                 , 0   , 1),   // 0
 	mytmva::tmvavar("Btrk1Eta" , "Btrk1Eta"                                                                , "", "Trak1 Eta"                          , -2.4  , 2.4)  , 
 	mytmva::tmvavar("Btrk2Eta"  , "Btrk2Eta"                                                                                        , "", "Trak 2 Eta"                 , 0   , 2.4),   // 0
-*/
 	mytmva::tmvavar("Bmass"  , "Bmass"                                                                                        , "", "B+ mass"                 , 5.0   , 6.0),   // 0
 	mytmva::tmvavar("BDT_pt_7_10"  , "BDT_pt_7_10"                                                                                        , "", "BDT 7 - 10 GeV/c"                 , -1.0   , 1.0),   // 0
 	mytmva::tmvavar("BDT_pt_10_15"  , "BDT_pt_10_15"                                                                                        , "", "BDT 10 - 15 GeV/c"                 , -1.0   , 1.0),   // 0
