@@ -687,6 +687,9 @@ void BPAnaCut(int doMC){
 	EffInfoTree->Branch("Btrk1Pt",Btrk1PtNew,"Btrk1Pt/F");
 	EffInfoTree->Branch("Btrk1Eta",Btrk1EtaNew,"Btrk1Eta/F");
 
+	EffInfoTree->Branch("Btktkmass",BtktkmassNew,"Btktkmass/F");
+
+
 	EffInfoTree->Branch("Btrk1PtErr",Btrk1PtErrNew,"Btrk1PtErr/F");
 
 	EffInfoTree->Branch("Bchi2cl",Bchi2clNew,"Bchi2cl/F");
@@ -1071,7 +1074,8 @@ void BPAnaCut(int doMC){
 				Btrk1nPixelLayerNew[iPass] = Btrk1nPixelLayer[j];
 				Btrk2nPixelLayerNew[iPass] = Btrk2nPixelLayer[j];
 
-
+	
+				BtktkmassNew[iPass] = Btktkmass[j];
 
 
 				//More Debug Variables DONE//
