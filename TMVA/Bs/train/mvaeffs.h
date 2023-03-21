@@ -2,6 +2,7 @@
 #define _MVAEFFS_H_
 
 #include "TMVA/mvaeffs.h"
+#include <TFormula.h>
 
 namespace mytmva
 {

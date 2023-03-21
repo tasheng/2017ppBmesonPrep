@@ -5,6 +5,8 @@
 #include "../includes/TMVAClassification.h"
 #include "../includes/cfout.h"
 
+#include "TEfficiency.h"
+
 const int NmaxFonll = 1198; //fonll data points number
 float fcentral[NmaxFonll],fpt[NmaxFonll];
 const int NEff = 100;
@@ -103,27 +105,29 @@ int calRatio(TTree* signal, TTree* background, TTree* generated,
 
 	TH1D* hrec = new TH1D("hrec",";B_{s} p_{T} (GeV/c);Signal reco entries",nbin-1,fpt);
 	TH1D* hgen = new TH1D("hgen",";B_{s} p_{T} (GeV/c);Generated entries",nbin-1,fpt);
-	TH1D* heff = new TH1D("heff",";B_{s} p_{T} (GeV/c);Prefilter efficiency",nbin-1,fpt);
 	signal->Project("hrec","Bpt",Form("%s*(%s)",weightfunctionreco.Data(),cuts.Data()));
 	generated->Project("hgen","Gpt",Form("%s*(%s)",weightfunctiongen.Data(),cutg.Data()));
 	cout << "Gen Cut = " << Form("%s*(%s)",weightfunctiongen.Data(),cutg.Data()) << endl;
 	cout << "Total Signal = " << hrec->Integral() << endl;
 	cout << "Total Generated = " << hgen->Integral() << endl;
 
+	/* TEfficiency* teff = new TEfficiency(*hrec, *hgen); */
+	cout << "norm = " <<  norm << endl;
+	TH1D* heff = new TH1D("heff",";Generated B_{s} p_{T} (GeV/c);Prefilter efficiency",nbin-1,fpt);
 	heff->Divide(hrec,hgen,1.,1.,"B");
-	cout << "norm = " <<  norm << endl; 
 	heff->Draw();
-	cfonll->SaveAs(Form("plots/Efficiency_%d_%d.png",ptmin,ptmax));
+	cfonll->SaveAs(Form("plots/Efficiency_%.0f_%.0f.png",ptmin,ptmax));
+  /* TH2* heff = teff->GetPaintedHistogram(); */
 	TH1D* htheoryreco = new TH1D("htheoryreco","",nbin-1,fpt);
 	htheoryreco->Multiply(heff,hfonll,1,1,"B");
 	Float_t nS = htheoryreco->Integral()*norm*BR*deltapt*lumi*raa*2; // x2
 //	Float_t nS = hfonll->Integral()*hrec->Integral()/hgen->Integral()*norm*BR*deltapt*lumi*raa*2;
 	results[0] = nB;
 	results[1] = nS;
-	
+
 cout << "htheoryreco->Integral() = " << htheoryreco->Integral() << endl;
 
-cout << "nS = " <<nS << endl; 
+cout << "nS = " <<nS << endl;
 	 cout << "nB = " <<nB << endl;
 	return 0;
 }

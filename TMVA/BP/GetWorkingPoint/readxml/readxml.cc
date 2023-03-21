@@ -92,6 +92,7 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 	//	background->AddFriend("ntHlt");
 	//	background->AddFriend("ntHi");
 	//	background->AddFriend("ntSkim");
+  mvatype = "BDT";
 	background->AddFriend(Form("%s_pt_%.0f_%.0f",mvatype.Data(),ptmin,ptmax));
 	//background->AddFriend("BDT");
 	cout << "PASS = 0.06"  << endl;

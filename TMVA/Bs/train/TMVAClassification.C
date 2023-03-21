@@ -106,6 +106,8 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
   //
   // Boosted Decision Trees
   Use["BDT"]             = 0; // uses Adaptive Boost
+  Use["BDTs"]            = 0; // small sample of BDT
+  Use["BDTs4"]           = 0; // small sample with max 4 levels
   Use["BDTG"]            = 0; // uses Gradient Boost
   Use["BDTB"]            = 0; // uses Bagging
   Use["BDTD"]            = 0; // decorrelation + Adaptive Boost
@@ -354,7 +356,7 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
   dataloader->PrepareTrainingAndTestTree( mycutS, mycutB,
                                           // "nTrain_Signal=10000:nTrain_Background=10000:nTest_Signal=10000:nTest_Background=10000:SplitMode=Random:NormMode=NumEvents:!V" );
                                           // "nTrain_Signal=0:nTrain_Background=100000:nTest_Signal=0:nTest_Background=100000:SplitMode=Random:NormMode=NumEvents:!V" );
-                                          "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:NormMode=NumEvents:!V" );
+                                          "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:SplitSeed=101:NormMode=NumEvents:!V" );
   std::cout << "Pass 6" <<std::endl;
 
   // ### Book MVA methods
@@ -596,23 +598,29 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
   // Boosted Decision Trees
   if (Use["BDTG"]) // Gradient Boost
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG",
-                         "!H:!V:NTrees=8000:MinNodeSize=5.0%:BoostType=Grad:Shrinkage=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=15000:MaxDepth=4" );
+                         "!H:!V:NTrees=1000:MinNodeSize=5.0%:BoostType=Grad:Shrinkage=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=3" );
 
   if (Use["BDT"])  // Adaptive Boost
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
-                         "!H:!V:NTrees=8000:MinNodeSize=5.0%:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=3000" );
+                         "!H:!V:NTrees=1000:MinNodeSize=5.0%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
 
+  if (Use["BDTs"])  // Adaptive Boost
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTs",
+                         "!H:!V:NTrees=100:MinNodeSize=5.0%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
+  if (Use["BDTs4"])  // Adaptive Boost
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTs4",
+                         "!H:!V:NTrees=100:MinNodeSize=5.0%:MaxDepth=4:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
   if (Use["BDTB"]) // Bagging
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTB",
                          "!H:!V:NTrees=400:BoostType=Bagging:SeparationType=GiniIndex:nCuts=20" );
 
   if (Use["BDTD"]) // Decorrelation + Adaptive Boost
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTD",
-                         "!H:!V:NTrees=2000:MinNodeSize=5%:MaxDepth=4:BoostType=AdaBoost:SeparationType=GiniIndex:nCuts=20:VarTransform=Decorrelate" );
+                         "!H:!V:NTrees=1000:MinNodeSize=5%:MaxDepth=3:BoostType=AdaBoost:SeparationType=GiniIndex:nCuts=20:VarTransform=Decorrelate" );
 
   if (Use["BDTF"])  // Allow Using Fisher discriminant in node splitting for (strong) linearly correlated variables
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTF",
-                         "!H:!V:NTrees=2500:MinNodeSize=2.5%:UseFisherCuts:MaxDepth=4:BoostType=AdaBoost:AdaBoostBeta=0.5:SeparationType=GiniIndex:nCuts=20000" );
+                         "!H:!V:NTrees=1000:MinNodeSize=2.5%:UseFisherCuts:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:SeparationType=GiniIndex:nCuts=20" );
 
   // RuleFit -- TMVA implementation of Friedman's method
   if (Use["RuleFit"])

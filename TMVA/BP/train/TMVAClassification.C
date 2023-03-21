@@ -106,6 +106,8 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
   //
   // Boosted Decision Trees
   Use["BDT"]             = 0; // uses Adaptive Boost
+  Use["BDTs"]            = 0; // uses Adaptive Boost
+  Use["BDTh"]            = 0; // uses Adaptive Boost
   Use["BDTG"]            = 0; // uses Gradient Boost
   Use["BDTB"]            = 0; // uses Bagging
   Use["BDTD"]            = 0; // decorrelation + Adaptive Boost
@@ -355,7 +357,7 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
   dataloader->PrepareTrainingAndTestTree( mycutS, mycutB,
                                           // "nTrain_Signal=10000:nTrain_Background=10000:nTest_Signal=10000:nTest_Background=10000:SplitMode=Random:NormMode=NumEvents:!V" );
                                           // "nTrain_Signal=0:nTrain_Background=100000:nTest_Signal=0:nTest_Background=100000:SplitMode=Random:NormMode=NumEvents:!V" );
-                                          "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:NormMode=NumEvents:!V" );
+                                          "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:SplitSeed=101:NormMode=NumEvents:!V" );
   std::cout << "Pass 6" <<std::endl;
 
   // ### Book MVA methods
@@ -601,7 +603,15 @@ int TMVAClassification(std::string inputSname, std::string inputBname, std::stri
 
   if (Use["BDT"])  // Adaptive Boost
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
-                         "!H:!V:NTrees=6000:MinNodeSize=5.0%:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=3000" );
+                         "!H:!V:NTrees=1000:MinNodeSize=5.0%:MaxDepth=4:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
+
+  if (Use["BDTs"])  // Adaptive Boost
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTs",
+                         "!H:!V:NTrees=200:MinNodeSize=5.0%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
+
+  if (Use["BDTh"])  // Adaptive Boost
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTh",
+                         "!H:!V:NTrees=100:MinNodeSize=5.0%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.50:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=30" );
 
   if (Use["BDTB"]) // Bagging
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTB",

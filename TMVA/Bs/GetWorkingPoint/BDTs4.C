@@ -1,13 +1,13 @@
 #include "uti.h"
 
 //#include "TMVA_BDT_PbPb_pt_5p0_10p0.class.C"
-#include "readxml/weights/TMVAClassification_BDT.class.C"
+#include "readxml/weights/TMVAClassification_BDTs4.class.C"
 
 #define MAX_XB       20000
 using namespace std;
 
 
-void BDT(TString infname, TString ofname, int ptmin, int ptmax)
+void BDTs4(TString infname, TString ofname, int ptmin, int ptmax)
 {
 	TFile* inf = new TFile(infname);
 	// TTree* t = (TTree*)inf->Get("Bfinder/ntKp");
@@ -61,6 +61,7 @@ void BDT(TString infname, TString ofname, int ptmin, int ptmax)
 
 	t->SetBranchAddress("Bd0Err", Bd0Err);
 	t->SetBranchAddress("Btrk1Pt", Btrk1Pt);
+	t->SetBranchAddress("Btrk2Pt", Btrk2Pt);
 	t->SetBranchAddress("Bd0", Bd0);
 	//t->SetBranchAddress("Bd0Err", Bd0Err);
 	t->SetBranchAddress("Bdtheta", Bdtheta);
@@ -102,7 +103,7 @@ void BDT(TString infname, TString ofname, int ptmin, int ptmax)
 
 
 	std::vector<double> inputValues;
-	ReadBDT mva(theInputVars);
+	ReadBDTs4 mva(theInputVars);
 	int run;
 	int evt;
 	int lumi;
@@ -124,7 +125,6 @@ void BDT(TString infname, TString ofname, int ptmin, int ptmax)
 	std::cout<<"  Calculating MVA values ..."<<std::endl;
 	for(int i=0;i< t->GetEntries();i++)
 	{
-	
 		t->GetEntry(i);
 		run = RunNo;
 		evt = EvtNo;
@@ -150,6 +150,7 @@ void BDT(TString infname, TString ofname, int ptmin, int ptmax)
 
 			BDT[j] = mva.GetMvaValue(inputValues);  
 
+
 		
 
 		}
@@ -167,7 +168,7 @@ int main(int argc, char* argv[])
 {
 	if(argc==5)
 	{
-		BDT(argv[1],argv[2],atof(argv[3]), atof(argv[4]));
+		BDTs4(argv[1],argv[2],atof(argv[3]), atof(argv[4]));
 		return 0;
 	}
 	else
