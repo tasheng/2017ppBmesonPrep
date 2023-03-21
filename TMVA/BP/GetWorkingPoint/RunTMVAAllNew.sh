@@ -1,3 +1,4 @@
+echo "Note: using bmva_trk5 weights"
 i=$1
 N=1
 # i=0
@@ -5,7 +6,8 @@ N=1
 ptmin=(5 7 10 15 20 50)
 ptmax=(7 10 15 20 50 60)
 
-jpsi=true
+# jpsi=true
+jpsi=false
 
 doMVA=1
 doMerge=0
@@ -17,22 +19,25 @@ mvatype="BDTs"
 # OutputB="/data/szhaozho/Bmeson2017pp/${mvatype}Output/BP_Data_${mvatype}_pt_${ptmin}_${ptmax}.root"
 
 InputB="../sample/BPData_5_60.root"
-OutputB="../output/BP_Data_${mvatype}_trk5_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
+OutputB="../output/BP_Data_${mvatype}_nom_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
 
 
 # InputS="~/braa/Unskimmed/NewOfficialMC/BPMC.root"
 # OutputS="~/dat/Unskimmed_gen/BP_MC_${mvatype}_trk5_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
 
-InputS="../sample/BPMC_5_60.root"
-OutputS="../output/BP_MC_${mvatype}_trk5_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
+# InputS="../sample/BPMC_5_60.root"
+# OutputS="../output/BP_MC_${mvatype}_trk5_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
+InputS="~/dat/presel/BPMC.root"
+OutputS="../output/BP_MC_${mvatype}_nom_pt_${ptmin[ i ]}_${ptmax[ i ]}.root"
 
-MergedB="../output/BP_Data_BDTs_trk5.root"
-MergedS="../output/BP_MC_BDTs_trk5.root"
+MergedB="../output/BP_Data_BDTs_nom.root"
+MergedS="../output/BP_MC_BDTs_nom.root"
 
 
 if [ "$jpsi" = true ]; then
     InputS="../sample/jpsinp_5_60.root"
-    OutputS="../output/jpsinp_${ptmin[ i ]}_${ptmax[ i ]}.root"
+    OutputS="../output/jpsinp_nom_${ptmin[ i ]}_${ptmax[ i ]}.root"
+    MergedS="../output/jpsinp_nom.root"
 fi
 
 
@@ -50,17 +55,10 @@ weightfunctionreco="weight"
 
 RAA=1.0
 
-#CUT="(Btrk1Pt > 0.2 && Btrk2Pt > 0.2 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && abs(Btrk2Eta-0.0) < 2.4 && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&Btrk2highPurity&&abs(Btrk1Eta)<2.4&&abs(Btrk2Eta)<2.4&&Btrk1Pt>1.&&Btrk2Pt>1.&&abs(Btktkmass-1.019455)<0.015)  && (Btrk1PixelHit + Btrk1StripHit > 10) && (Btrk2PixelHit + Btrk2StripHit > 10) && (Btrk1PtErr/Btrk1Pt < 0.1)&& (Btrk2PtErr/Btrk2Pt < 0.1) && Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18 && Btrk2Chi2ndf/(Btrk2nStripLayer+Btrk2nPixelLayer) < 0.18  && (abs(PVz)<15))"
-
-#CUT="(Btrk1Pt > 0.2 && Btrk2Pt > 0.2 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && abs(Btrk2Eta-0.0) < 2.4 && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&Btrk2highPurity&&abs(Btrk1Eta)<2.4&&abs(Btrk2Eta)<2.4&&Btrk1Pt>0.&&Btrk2Pt>0.&&abs(Btktkmass-1.019455)<0.015)  && (Btrk1PixelHit + Btrk1StripHit > 10) && (Btrk2PixelHit + Btrk2StripHit > 10) && (Btrk1PtErr/Btrk1Pt < 0.1)&& (Btrk2PtErr/Btrk2Pt < 0.1) && Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18 && Btrk2Chi2ndf/(Btrk2nStripLayer+Btrk2nPixelLayer) < 0.18  && (abs(PVz)<15))"
-
-
-#CUT="(Btrk1Pt > 0.2  && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4 && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity &&Btrk1Pt>0.  && (Btrk1PixelHit + Btrk1StripHit > 10)  && (Btrk1PtErr/Btrk1Pt < 0.1)&& Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18  && (abs(PVz)<15)))"
-#CUT="(Bmu1isTriggered == 1 && Bmu2isTriggered ==1)&&(HBHENoiseFilterResult == 1 && pPAprimaryVertexFilter == 1 && pBeamScrapingFilter == 1)&&Btrk1Pt > 0.2 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&abs(Btrk1Eta)<2.4&&Btrk1Pt>0.2)  && (Btrk1PixelHit + Btrk1StripHit > 10) &&  (Btrk1PtErr/Btrk1Pt < 0.1)&& Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18   && (abs(PVz)<15)"
-# CUT="Btrk1Pt > 0.5 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&abs(Btrk1Eta)<2.4&&Btrk1Pt>0.5)  && (Btrk1PixelHit + Btrk1StripHit > 10) &&  (Btrk1PtErr/Btrk1Pt < 0.1)&& Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18   && (abs(PVz)<15)"
 
 # to match the skim cut
 CUT="(pPAprimaryVertexFilter == 1 && pBeamScrapingFilter == 1 && HLT_HIL1DoubleMu0_v1 == 1)  &&  (Bmu1isTriggered == 1 && Bmu2isTriggered == 1 ) && (Btrk1Pt > 0.5 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2.0 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&abs(Btrk1Eta)<2.4&&Btrk1Pt>0.5)  && (Btrk1PixelHit + Btrk1StripHit > 10) &&  (Btrk1PtErr/Btrk1Pt < 0.1)&& Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18   && (abs(PVz)<15))"
+# cut="(pPAprimaryVertexFilter == 1 && pBeamScrapingFilter == 1 && HLT_HIL1DoubleMu0_v1 == 1)  &&  (Bmu1isTriggered == 1 && Bmu2isTriggered == 1 ) && (Btrk1Pt > 0.5 && Bpt > 2 && abs(Btrk1Eta-0.0) < 2.4  && (TMath::Abs(By)<2.4 && ((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.47-1.89*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.5))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.47-1.89*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.5))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isTrackerMuon&&Bmu2isTrackerMuon&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&abs(Btrk1Eta)<2.4&&Btrk1Pt>0.5)  && (Btrk1PixelHit + Btrk1StripHit > 10) &&  (Btrk1PtErr/Btrk1Pt < 0.1)&& Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18   && (abs(PVz)<15))"
 
 
 
@@ -75,13 +73,12 @@ MYCUTG=("abs(Gy)<2.4&&abs(GpdgId)==521&&GisSignal==1");
 
 
 
-if [ $doMVA -eq 1 ]; then   
-
-    weight_c="../train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.class.C"
-    weight_xml="../train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.weights.xml"
+if [ $doMVA -eq 1 ]; then
+weight_c="/home/tasheng/bmva_trk5/TMVA/BP/train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.class.C"
+weight_xml="/home/tasheng/bmva_trk5/TMVA/BP/train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.weights.xml"
+# weight_c="../train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.class.C"
+# weight_xml="../train/dataset/weights/rootfiles_TMVA_B_s_BDT_BDTs_${ptmin[ i ]}p0_${ptmax[ i ]}p0_0-2-4-7-8-11_root/TMVAClassification_BDTs.weights.xml"
     echo "copying weight files"
-    # cp $weight_c readxml/weights/TMVAClassification_BDT.class.C
-    # cp $weight_xml readxml/weights/TMVAClassification_BDT.weights.xml
     cp $weight_c readxml/weights/
     cp $weight_xml readxml/weights/
 
@@ -89,7 +86,9 @@ if [ $doMVA -eq 1 ]; then
     # echo "Only doing MC"
 	g++ ${mvatype}.C $(root-config --cflags --libs) -g -o  ${mvatype}.exe
 	./${mvatype}.exe "$InputS" "$OutputS"  ${ptmin[ i ]} ${ptmax[ i ]} &
-	./${mvatype}.exe "$InputB" "$OutputB"  ${ptmin[ i ]} ${ptmax[ i ]} &
+  if [ "$jpsi" = false ]; then
+      ./${mvatype}.exe "$InputB" "$OutputB"  ${ptmin[ i ]} ${ptmax[ i ]} &
+  fi
   wait
 	rm ${mvatype}.exe
 
@@ -99,8 +98,13 @@ fi
 
 
 if [ $doMerge -eq 1 ]; then
-	  hadd -f $MergedS $InputS ../output/BP_MC_${mvatype}_trk5_pt_*.root &
-	  hadd -f $MergedB $InputB ../output/BP_Data_${mvatype}_trk5_pt_*.root &
+    if [ "$jpsi" = true ]; then
+        # hadd -f $MergedS $InputS ../output/jpsinp_nom_pt_*.root &
+        hadd -f $MergedS $InputS ../output/jpsinp_nom_*.root &
+    else
+	      hadd -f $MergedS $InputS ../output/BP_MC_${mvatype}_nom_pt_*.root &
+	      hadd -f $MergedB $InputB ../output/BP_Data_${mvatype}_nom_pt_*.root &
+    fi
     wait
 fi
 

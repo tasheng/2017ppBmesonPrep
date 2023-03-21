@@ -14,8 +14,10 @@
 int split()
 {
   gROOT->SetBatch(kTRUE);
-  TString inputSname = "/home/tasheng/braa/Unskimmed/NewOfficialMC/BsMC.root";
-  TString inputBname = "/home/tasheng/braa/Unskimmed/BsData.root";
+  TString inputSname ="~/dat/presel/BsMC.root";
+  TString inputBname ="~/dat/presel/new/BsData7.root";
+  // TString inputSname = "/home/tasheng/braa/Unskimmed/NewOfficialMC/BsMC.root";
+  // TString inputBname = "/home/tasheng/braa/Unskimmed/BsData.root";
 
   // signal
   TFile* inputS = TFile::Open(inputSname);
@@ -95,38 +97,38 @@ int split()
     outputS->Write();
     outputS->Close();
 
-    // background->Draw(">>blist", sel, "entrylist", max);
-    // TEntryList *blist = (TEntryList*)gDirectory->Get("blist");
+    background->Draw(">>blist", sel, "entrylist", max);
+    TEntryList *blist = (TEntryList*)gDirectory->Get("blist");
 
-    // outname = TString::Format("../sample/BsData_%.0f_%.0f.root", ptbins[i], ptbins[i+1]);
-    // TFile* outputB = new TFile(outname, "recreate");
-    // outputB->mkdir("Bfinder");
-    // outputB->mkdir("hltanalysis");
-    // outputB->mkdir("hiEvtAnalyzer");
-    // outputB->mkdir("skimanalysis");
-    // outputB->cd("Bfinder");
-    // TTree* outBtree = background->CloneTree(0);
-    // TTree* outBroot = bgroot->CloneTree(0);
-    // outputB->cd("hltanalysis");
-    // TTree* outBhlt = bghlt->CloneTree(0);
-    // outputB->cd("hiEvtAnalyzer");
-    // TTree* outBhie = bghie->CloneTree(0);
-    // outputB->cd("skimanalysis");
-    // TTree* outBska = bgska->CloneTree(0);
+    outname = TString::Format("../sample/BsData_%.0f_%.0f.root", ptbins[i], ptbins[i+1]);
+    TFile* outputB = new TFile(outname, "recreate");
+    outputB->mkdir("Bfinder");
+    outputB->mkdir("hltanalysis");
+    outputB->mkdir("hiEvtAnalyzer");
+    outputB->mkdir("skimanalysis");
+    outputB->cd("Bfinder");
+    TTree* outBtree = background->CloneTree(0);
+    TTree* outBroot = bgroot->CloneTree(0);
+    outputB->cd("hltanalysis");
+    TTree* outBhlt = bghlt->CloneTree(0);
+    outputB->cd("hiEvtAnalyzer");
+    TTree* outBhie = bghie->CloneTree(0);
+    outputB->cd("skimanalysis");
+    TTree* outBska = bgska->CloneTree(0);
 
-    // for(auto ient = 0; ient < blist->GetN(); ++ient){
-    //   auto entry = blist->GetEntry(ient);
-    //   // std::cout << entry << "\n";
+    for(auto ient = 0; ient < blist->GetN(); ++ient){
+      auto entry = blist->GetEntry(ient);
+      // std::cout << entry << "\n";
 
-    //   background->GetEntry(entry);
-    //   outBtree->Fill();
-    //   outBroot->Fill();
-    //   outBhlt->Fill();
-    //   outBhie->Fill();
-    //   outBska->Fill();
-    //   }
-    // outputB->Write();
-    // outputB->Close();
+      background->GetEntry(entry);
+      outBtree->Fill();
+      outBroot->Fill();
+      outBhlt->Fill();
+      outBhie->Fill();
+      outBska->Fill();
+      }
+    outputB->Write();
+    outputB->Close();
 
   }
 

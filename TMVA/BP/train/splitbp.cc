@@ -14,8 +14,8 @@
 int splitbp()
 {
   gROOT->SetBatch(kTRUE);
-  TString inputSname = "/home/tasheng/braa/Unskimmed/NewOfficialMC/BPMC.root";
-  TString inputBname = "/home/tasheng/braa/Unskimmed/BPData.root";
+  TString inputSname ="~/dat/presel/BPMC.root";
+  TString inputBname ="~/dat/presel/new/BPData4.root";
 
   // signal
   TFile* inputS = TFile::Open(inputSname);
@@ -45,9 +45,9 @@ int splitbp()
   background->AddFriend(bgroot);
 
 
-  std::vector<double> ptbins = {5, 7, 10, 15, 20, 30, 50, 60};
+  // std::vector<double> ptbins = {5, 7, 10, 15, 20, 50, 60};
   // std::vector<double> ptbins = {7, 10, 15, 20, 50};
-  // std::vector<double> ptbins = {5, 60};
+  std::vector<double> ptbins = {5, 60};
 
   ulong max = TVirtualTreePlayer::kMaxEntries;
 

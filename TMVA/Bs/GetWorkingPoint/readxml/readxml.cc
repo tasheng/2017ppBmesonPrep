@@ -80,8 +80,8 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 	TFile* inputS = new TFile(inputSname.Data());
 	TFile* inputB = new TFile(inputBname.Data());
 
-	TFile* inputSmva = new TFile(Form("../../output/Bs_MC_aug_BDTs4_pt_%.0f_%.0f.root", ptmin, ptmax));
-	TFile* inputBmva = new TFile(Form("../../output/Bs_Data_aug_BDTs4_pt_%.0f_%.0f.root", ptmin, ptmax));
+	// TFile* inputSmva = new TFile(Form("../../output/Bs_MC_aug_BDTs4_pt_%.0f_%.0f.root", ptmin, ptmax));
+	// TFile* inputBmva = new TFile(Form("../../output/Bs_Data_aug_BDTs4_pt_%.0f_%.0f.root", ptmin, ptmax));
 
 	TTree* background = (TTree*)inputB->Get("Bfinder/ntphi");
 
@@ -90,20 +90,20 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 	//	background->AddFriend("ntSkim");
 	background->AddFriend(Form("%s_pt_%.0f_%.0f",mvatype.Data(),ptmin,ptmax));
 	//background->AddFriend("BDT");
-	// background->AddFriend("hiEvtAnalyzer/HiTree");
-	// background->AddFriend("skimanalysis/HltTree");
-	// background->AddFriend("hltanalysis/HltTree");
+	background->AddFriend("hiEvtAnalyzer/HiTree");
+	background->AddFriend("skimanalysis/HltTree");
+	background->AddFriend("hltanalysis/HltTree");
 
 	cout << "PASS = 0.1" << background->GetEntries() << endl;
 	
 	TTree* signal = (TTree*)inputS->Get("Bfinder/ntphi");
-	// signal->AddFriend("hiEvtAnalyzer/HiTree");
+	signal->AddFriend("hiEvtAnalyzer/HiTree");
 
 	
 	cout << "PASS =  0.2" << background->GetEntries() << endl;
 
-	// signal->AddFriend("hltanalysis/HltTree");
-	// signal->AddFriend("skimanalysis/HltTree");
+	signal->AddFriend("hltanalysis/HltTree");
+	signal->AddFriend("skimanalysis/HltTree");
 
 	cout << "PASS =  0.3" << background->GetEntries() << endl;
 
@@ -116,7 +116,7 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 
 
 	TTree* generated = (TTree*)inputS->Get("Bfinder/ntGen");
-	// generated->AddFriend("hiEvtAnalyzer/HiTree");
+	generated->AddFriend("hiEvtAnalyzer/HiTree");
 
 //	TString BptWeight="0.474599*TMath::Exp(-0.001406*Bpt)+38.036016/(Bpt*Bpt+0.000330*0.000330)";
 //	TString BptWeight="0.603534*TMath::Exp(-0.006505*Bpt)+13.177674/(Bpt*Bpt -4.418950 * Bpt + 0.009566*0.009566)";
